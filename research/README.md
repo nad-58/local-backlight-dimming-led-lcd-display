@@ -1,19 +1,23 @@
 # Research reference
 
-This folder is reserved for thesis-related public research material.
+This folder documents the public research source for this repository.
 
-The Python implementation in this repository is based on Chapter 3 of:
+The Python implementation is based on Chapter 3 of:
 
 E. Nadernejad, *Processing Decoded Video for LCD-LED Backlight Display: Post processing of decoded video and local backlight dimming for LCD technology with LED-based backlight*, Technical University of Denmark, 2013.
 
-The original MATLAB source files are not committed to this repository. They have been converted into Python modules under `src/local_backlight_dimming/`.
+## Public thesis PDF
 
-## Thesis PDF
+The thesis PDF is publicly available through DTU Orbit:
 
-The thesis PDF is public and may be added to this folder manually as:
+https://orbit.dtu.dk/files/87595827/thesisMain.pdf
+
+The PDF is not stored directly in this repository because it is larger than GitHub's normal web-upload limit. Keeping the official DTU Orbit link avoids duplicating a large binary file and ensures users access the authoritative public version.
+
+## Source-code note
+
+The original MATLAB source files are not committed to this repository. They have been converted into cleaned Python modules under:
 
 ```text
-research/phd_thesis_local_backlight_dimming.pdf
+src/local_backlight_dimming/
 ```
-
-Note: the current automated GitHub connector used in this session supports text-file writes reliably, but not direct binary PDF upload through the normal file-creation action. The repository has therefore been prepared with this research folder and thesis reference; the PDF itself should be uploaded through the GitHub web interface or Git LFS if desired.
