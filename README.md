@@ -110,28 +110,6 @@ print("relative power:", relative_backlight_power(led))
 print("PSNR:", psnr(image, reproduced))
 ```
 
-## MATLAB conversion notes
-
-The uploaded MATLAB source files were reviewed and converted into Python. The original MATLAB source files are intentionally not committed. The Python version is structured, typed and documented for maintainability.
-
-Important MATLAB files mapped into this Python package include:
-
-- `algConv.m` -> `conventional_dimming`
-- `algAvg.m` -> `average_dimming`
-- `algAvgPlus.m` -> `average_plus_dimming`
-- `algMax.m` -> `maximum_dimming`
-- `algCho.m` -> `cho_dimming`
-- `algNam.m` -> `nam_dimming`
-- `algChen.m` -> `chen_dimming`
-- `algEhsan.m` and thesis Section 3.1.4 -> `proposed_histogram_dimming` / `matlab_ehsan_variant`
-- `algClipperFreeXiao.m` -> `clipper_free_dimming`
-- `algNew.m` -> `new_dimming`
-- `algFast.m` -> `fast_refinement`
-- `simulateBacklight.m` -> `DisplayModel.simulate_backlight`
-- `renderResult.m` -> `render_result`
-- `calculateEpsilon.m` -> `calculate_epsilon`
-- `computeColorDistortion.m` and `srgb2xyz.m` -> colour utilities in `color.py`
-
 ## Status
 
 This is a clean research and portfolio implementation. It is not a vendor display driver and does not include confidential data or proprietary display calibration files.
