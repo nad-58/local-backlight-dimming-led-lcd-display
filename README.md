@@ -6,15 +6,19 @@ This repository converts and modernises MATLAB source code associated with Chapt
 
 > E. Nadernejad, *Processing Decoded Video for LCD-LED Backlight Display: Post processing of decoded video and local backlight dimming for LCD technology with LED-based backlight*, Technical University of Denmark, 2013.
 
+Official public thesis PDF: https://orbit.dtu.dk/files/87595827/thesisMain.pdf
+
 ## Scope
 
 The project focuses on local dimming for LED-backlit LCD displays. It includes:
 
 - local backlight zone modelling,
 - average, maximum, square-root, Cho-style and Nam-style dimming baselines,
-- the thesis-inspired local histogram / image-feature algorithm,
+- Chen-style and Ehsan/proposed histogram-feature dimming algorithms,
+- CVX-free Python approximations of optimisation-based dimming algorithms,
 - backlight diffusion simulation using a point-spread function approximation,
 - LCD brightness compensation with leakage modelling,
+- colour-space and colour-distortion utilities,
 - quality and power metrics,
 - temporal flicker reduction using adaptive IIR filtering,
 - examples and tests for reproducible experimentation.
@@ -29,9 +33,13 @@ The thesis method uses local image statistics to determine LED values. Each loca
 
 ```text
 src/local_backlight_dimming/
-  algorithms.py             # baseline and thesis-inspired dimming algorithms
+  algorithms.py             # baseline, Chen, Nam, Cho and proposed dimming algorithms
+  optimization.py           # optimisation-based dimming approximations
   compensation.py           # LCD transmittance and brightness compensation
   display_model.py          # LED grid, PSF and backlight simulation
+  epsilon.py                # leakage / epsilon modelling
+  color.py                  # sRGB, XYZ, Lab and colour distortion utilities
+  result.py                 # render-result and comparison analysis
   flicker_reduction.py      # temporal smoothing / adaptive IIR filtering
   image_utils.py            # image preparation utilities
   metrics.py                # MSE, PSNR, SSIM-like and power metrics
@@ -45,6 +53,9 @@ docs/
   thesis_method_summary.md
   matlab_to_python_mapping.md
   algorithm_notes.md
+
+research/
+  README.md                 # official public thesis link
 
 tests/
   test_algorithms.py
@@ -101,18 +112,25 @@ print("PSNR:", psnr(image, reproduced))
 
 ## MATLAB conversion notes
 
-The uploaded MATLAB archive contained useful algorithm files and legacy artefacts such as `.svn` folders, `.asv` autosaves and merge-conflict variants. Only the clean algorithmic content has been converted. The Python version is structured, typed and documented for maintainability.
+The uploaded MATLAB source files were reviewed and converted into Python. The original MATLAB source files are intentionally not committed. The Python version is structured, typed and documented for maintainability.
 
 Important MATLAB files mapped into this Python package include:
 
+- `algConv.m` -> `conventional_dimming`
 - `algAvg.m` -> `average_dimming`
+- `algAvgPlus.m` -> `average_plus_dimming`
 - `algMax.m` -> `maximum_dimming`
 - `algCho.m` -> `cho_dimming`
 - `algNam.m` -> `nam_dimming`
-- `algEhsan.m` and thesis Section 3.1.4 -> `proposed_histogram_dimming`
+- `algChen.m` -> `chen_dimming`
+- `algEhsan.m` and thesis Section 3.1.4 -> `proposed_histogram_dimming` / `matlab_ehsan_variant`
+- `algClipperFreeXiao.m` -> `clipper_free_dimming`
+- `algNew.m` -> `new_dimming`
+- `algFast.m` -> `fast_refinement`
 - `simulateBacklight.m` -> `DisplayModel.simulate_backlight`
-- `renderResult.m` -> `compensate_lcd`
-- `ssim.m` -> `metrics.ssim_global`
+- `renderResult.m` -> `render_result`
+- `calculateEpsilon.m` -> `calculate_epsilon`
+- `computeColorDistortion.m` and `srgb2xyz.m` -> colour utilities in `color.py`
 
 ## Status
 
