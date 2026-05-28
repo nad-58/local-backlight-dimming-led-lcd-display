@@ -8,7 +8,13 @@ venv/
 dist/
 build/
 .DS_Store
+
+# MATLAB source and editor/source-control artefacts are intentionally not committed.
+*.m
 *.asv
-*.m.mine
-*.m.r*
+*.mine
 .svn/
+
+# Generated outputs
+outputs/
+result_*/
