@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from local_backlight_dimming.algorithms import (
     average_dimming,
+    average_plus_dimming,
+    chen_dimming,
     cho_dimming,
+    conventional_dimming,
     maximum_dimming,
     nam_dimming,
     proposed_histogram_dimming,
@@ -18,11 +21,14 @@ def main() -> None:
     image = synthetic_hdr_like_image(180, 320)
     display = DisplayModel.from_grid(height=180, width=320, rows=6, cols=10)
     algorithms = {
+        "conventional": lambda d, _: conventional_dimming(d),
         "avg": average_dimming,
+        "avg_plus": average_plus_dimming,
         "max": maximum_dimming,
         "sqrt": sqrt_dimming,
         "cho": cho_dimming,
         "nam": nam_dimming,
+        "chen": chen_dimming,
         "proposed": proposed_histogram_dimming,
     }
 
