@@ -12,16 +12,16 @@ Official public thesis PDF: https://orbit.dtu.dk/files/87595827/thesisMain.pdf
 
 The project focuses on local dimming for LED-backlit LCD displays. It includes:
 
-- local backlight zone modelling,
-- average, maximum, square-root, Cho-style and Nam-style dimming baselines,
-- Chen-style and Ehsan/proposed histogram-feature dimming algorithms,
-- CVX-free Python approximations of optimisation-based dimming algorithms,
-- backlight diffusion simulation using a point-spread function approximation,
-- LCD brightness compensation with leakage modelling,
-- colour-space and colour-distortion utilities,
-- quality and power metrics,
-- temporal flicker reduction using adaptive IIR filtering,
-- examples and tests for reproducible experimentation.
+- local backlight zone modelling;
+- average, maximum, square-root, Cho-style and Nam-style dimming baselines;
+- Chen-style and Ehsan/proposed histogram-feature dimming algorithms;
+- CVX-free Python approximations of optimisation-based dimming algorithms;
+- backlight diffusion simulation using a point-spread function approximation;
+- LCD brightness compensation with leakage modelling;
+- colour-space and colour-distortion utilities;
+- quality and power metrics;
+- temporal flicker reduction using adaptive IIR filtering;
+- examples, unit tests, integration tests, and automated CI.
 
 ## Background
 
@@ -61,6 +61,11 @@ tests/
   test_algorithms.py
   test_display_model.py
   test_metrics.py
+  test_end_to_end.py
+
+.github/
+  workflows/python-checks.yml
+  dependabot.yml
 ```
 
 ## Installation
@@ -68,7 +73,7 @@ tests/
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e .[dev]
+python -m pip install -e ".[dev]"
 ```
 
 ## Quick start
@@ -85,11 +90,33 @@ Compare baseline algorithms:
 python examples/compare_algorithms.py
 ```
 
-Run tests:
+Demonstrate flicker reduction:
 
 ```bash
-pytest
+python examples/demo_flicker_filter.py
 ```
+
+## Run validation locally
+
+```bash
+python -m compileall -q src examples tests
+python -m pytest tests -q
+python -m pip install pip-audit
+python -m pip_audit
+```
+
+GitHub Actions performs the same compile, test, example, and dependency-audit checks on every push and pull request.
+
+## Test coverage
+
+The automated tests cover:
+
+- valid LED output ranges and shapes;
+- relationships between baseline algorithms;
+- display-model construction and diffusion behaviour;
+- image-quality and power metrics;
+- end-to-end dimming, backlight simulation, and LCD compensation;
+- finite outputs and consistent image shapes.
 
 ## Minimal Python usage
 
@@ -109,6 +136,10 @@ compensated, reproduced = compensate_lcd(image, backlight)
 print("relative power:", relative_backlight_power(led))
 print("PSNR:", psnr(image, reproduced))
 ```
+
+## Dependency maintenance
+
+Dependabot checks Python packages and GitHub Actions weekly. CI runs `pip-audit` to identify known vulnerabilities in installed dependencies.
 
 ## Status
 
