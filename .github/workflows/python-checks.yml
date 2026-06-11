@@ -1,0 +1,30 @@
+name: Python checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package and tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pip install pip-audit
+      - name: Compile sources
+        run: python -m compileall -q src examples tests
+      - name: Run tests
+        run: python -m pytest tests -q
+      - name: Run examples
+        run: |
+          MPLBACKEND=Agg python examples/demo_image_dimming.py
+          MPLBACKEND=Agg python examples/compare_algorithms.py
+          MPLBACKEND=Agg python examples/demo_flicker_filter.py
+      - name: Audit dependencies
+        run: python -m pip_audit
